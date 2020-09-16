@@ -1,0 +1,38 @@
+<%= form_with(model: interview, local: true) do |form| %>
+
+    <% if interview.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(interview.errors.count, "error") %> prohibited this post from being saved:</h2>
+  
+        <ul>
+        <% interview.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+  
+    <div class="field">
+      <%= form.label :topic, 'Set a topic for interview' %>
+      <%= form.text_field :topic, id: :interview_topic %>
+    </div>
+    
+    <div class="field">
+      <%= form.label :date, 'Set a date for the interview' %>
+      <%= form.date_field :date, id: :interview_date %>
+    </div>
+
+    <div class="field">
+      <%= form.label :start, 'Set a start time'%>
+      <%= form.time_field :start, id: :interview_start %>
+    </div>
+
+    <div class="field">
+      <%= form.label :finish, 'Set a end time'%>
+      <%= form.time_field :finish, id: :interview_finish %>
+    </div>
+    
+    <div class="actions">
+      <%= form.submit %>
+    </div>
+  <% end %>

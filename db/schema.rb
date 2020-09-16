@@ -30,10 +30,10 @@ ActiveRecord::Schema.define(version: 20200915090042) do
     t.bigint "users_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "resume_file_name"
-    t.string "resume_content_type"
-    t.bigint "resume_file_size"
-    t.datetime "resume_updated_at"
+    t.string "file_file_name"
+    t.string "file_content_type"
+    t.bigint "file_file_size"
+    t.datetime "file_updated_at"
     t.index ["users_id"], name: "index_resumes_on_users_id"
   end
 

@@ -1,0 +1,7 @@
+<h1>Interview</h1>
+
+<div>
+    <p>Topic : <%= :topic%></p>
+    <%= link_to edit_interview_path(:id)%>
+    <%= link_to 'Destroy', @interview, method: :delete, data: {confirm: 'Are you sure you want to delete the interview?'}%>
+</div>

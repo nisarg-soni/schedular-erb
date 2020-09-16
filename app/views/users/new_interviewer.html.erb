@@ -1,0 +1,22 @@
+<%= form_with(model: @user, local: true, url: users_path, method: 'post') do |form| %>
+  
+
+  <div class="field">
+    <%= form.label :email %>
+    <%= form.text_field :email, id: :user_email %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :user_name %>
+  </div>
+
+  <div class="field" >
+    
+    <%= form.hidden_field :role, id: :user_role, :value => 'interviewer' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
