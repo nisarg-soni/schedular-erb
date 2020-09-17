@@ -13,7 +13,7 @@ class UsersController < ApplicationController
             @user.has_resume= false
         else
             @user.role=false
-            if params[:resume]
+            if params[:file]
                 @user.has_resume=true 
             else 
                 @user.has_resume=false
@@ -24,7 +24,8 @@ class UsersController < ApplicationController
         # puts @user.name
         # puts @user.role
         # puts @user.has_resume
-        
+        # puts @user.id 
+        # puts "before save"
         if @user.save
             @resume = Resume.new(parameters)
                 @resume.users_id = @user.id 

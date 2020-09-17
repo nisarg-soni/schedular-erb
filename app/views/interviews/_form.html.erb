@@ -31,6 +31,16 @@
       <%= form.label :finish, 'Set a end time'%>
       <%= form.time_field :finish, id: :interview_finish %>
     </div>
+
+    <div class="field">
+      <%= form.label :interviewer, 'Set an interviewer'%>
+      <%= form.text_field :interviewer, id: :interview_interviewer %>
+    </div>
+
+    <div class="field">
+      <%= form.label :candidiate, 'Set a candidate'%>
+      <%= form.text_field :candidate, id: :interview_candidiate %>
+    </div>
     
     <div class="actions">
       <%= form.submit %>
