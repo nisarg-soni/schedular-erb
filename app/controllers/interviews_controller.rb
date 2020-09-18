@@ -21,11 +21,10 @@ class InterviewsController < ApplicationController
 
     def create
         @interview = Interview.new(parameters)
-        # puts @interview.date 
-        # puts params['interview']['candidate']
+        
         @interviewer = User.find_by(:email => params[:interview][:interviewer])
         @candidate = User.find_by(:email => params[:interview][:candidate])
-        # puts @interviewer
+       
 
         if !@interviewer || !@candidate
             redirect_to root_url, notice: 'User not available.'
@@ -43,8 +42,6 @@ class InterviewsController < ApplicationController
                 redirect_to root_url, notice: 'Interview overlapping with existing interview'
             end
         end
-
-
     end
 
     def update

@@ -27,17 +27,18 @@ class UsersController < ApplicationController
         # puts @user.id 
         # puts "before save"
         if @user.save
+            # @resume = @user.resume
             @resume = Resume.new(parameters)
                 @resume.users_id = @user.id 
-                # puts @resume.users_id
-                # puts @resume.file_file_name
-                # puts @resume.file_content_type
-                # puts @resume.file_file_size
-                # puts @resume.file_updated_at
-                if @resume.save
+                puts @resume.users_id
+                puts @resume.file_file_name
+                puts @resume.file_content_type
+                puts @resume.file_file_size
+                puts @resume.file_updated_at
+                if @resume.save!
                     puts "resume saved"
                 else
-                    puts "oops"
+                    puts @resume.errors.full_messages
                 end
             redirect_to root_url, notice: 'User creation success.'
         else
