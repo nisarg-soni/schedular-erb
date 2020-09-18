@@ -5,44 +5,42 @@ class UsersController < ApplicationController
 
     def create
         @user = User.new
-        puts "here"
-        @user.email = params[:email]
-        @user.name = params[:name]
-        if params[:role]=='interviewer'
-            @user.role=true
-            @user.has_resume= false
+        # @ex_user = User.where(:email => params[:email])
+        # puts @ex_user
+        if User.exists?(:email => params[:email])
+            # puts @ex_user.name
+            redirect_to root_url, notice: 'User email in use.'
         else
-            @user.role=false
-            if params[:file]
-                @user.has_resume=true 
-            else 
-                @user.has_resume=false
-            end
-        end
-
-        # puts @user.email
-        # puts @user.name
-        # puts @user.role
-        # puts @user.has_resume
-        # puts @user.id 
-        # puts "before save"
-        if @user.save
-            # @resume = @user.resume
-            @resume = Resume.new(parameters)
-                @resume.users_id = @user.id 
-                puts @resume.users_id
-                puts @resume.file_file_name
-                puts @resume.file_content_type
-                puts @resume.file_file_size
-                puts @resume.file_updated_at
-                if @resume.save!
-                    puts "resume saved"
-                else
-                    puts @resume.errors.full_messages
+            @user.email = params[:email]
+            @user.name = params[:name]
+            if params[:role]=='interviewer'
+                @user.role=true
+                @user.has_resume= false
+            else
+                @user.role=false
+                if params[:file]
+                    @user.has_resume=true 
+                else 
+                    @user.has_resume=false
                 end
-            redirect_to root_url, notice: 'User creation success.'
-        else
-            redirect_to root_url, notice: 'User creation unsuccessfull.'
+            end
+
+            if @user.save
+                if !@user.role
+                    @resume = Resume.new(parameters)
+                    @resume.user_id = @user.id 
+                    
+                    if @resume.save!
+                        puts "resume saved"
+                    else
+                        puts @resume.errors.full_messages
+                    end
+                end
+                # @user.resume << Resume.new(parameters)
+                redirect_to root_url, notice: 'User creation success.'
+            else
+                redirect_to root_url, notice: 'User creation unsuccessfull.'
+            end
         end
     end
 

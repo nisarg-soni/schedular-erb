@@ -34,6 +34,9 @@ class InterviewsController < ApplicationController
                     @interview.users << @interviewer
                     @interview.users << @candidate
                     # mail functionality goes here
+                       create_mail(@interview,@interviewer,@candidate)
+                       reminder_mail(@interview,@interviewer,@candidate) 
+                    # 
                     redirect_to root_url, notice: 'Interview creation successfull.'
                 else
                     redirect_to root_url, notice: 'Interview creation unsuccessfull. Error occured'
@@ -64,6 +67,8 @@ class InterviewsController < ApplicationController
                     @interview.users << @interviewer
                     @interview.users << @candidate
                     # mail functionality goes here
+                        update_mail(@interview,@interviewer,@candidate)
+                    # 
                     redirect_to root_url, notice: 'Interview updation successfull.'
                 else
                     redirect_to root_url, notice: 'Interview updation unsuccessfull. Error occured'
@@ -105,5 +110,87 @@ class InterviewsController < ApplicationController
             end
         end
         return false
+    end
+
+    #mail
+    def create_mail(interview, interviewer, candidate)
+        data= JSON.generate({
+            'function' => 'creation',
+            'send_to_email' => candidate.email,
+            'send_to_name' => candidate.name,
+            'topic' => interview.topic,
+            'date' => interview.date,
+            'start' => interview.start.strftime("%H:%M"),
+            'finish' => interview.finish.strftime("%H:%M"),
+            'interviewer' => interviewer.name,
+            'candidate' => candidate.name
+        })
+
+        DeliveryMan.perform_async(data, 1)
+        
+        data= JSON.generate({
+            'function' => 'creation',
+            'send_to_email' => interviewer.email,
+            'send_to_name' => interviewer.name,
+            'topic' => interview.topic,
+            'date' => interview.date,
+            'start' => interview.start.strftime("%H:%M"),
+            'finish' => interview.finish.strftime("%H:%M"),
+            'interviewer' => interviewer.name,
+            'candidate' => candidate.name
+        })
+
+        DeliveryMan.perform_async(data, 1)
+    end
+
+    def update_mail(interview,interviewer,candidate)
+        data= JSON.generate({
+            'function' => 'update',
+            'send_to_email' => candidate.email,
+            'send_to_name' => candidate.name,
+            'topic' => interview.topic,
+            'date' => interview.date,
+            'start' => interview.start.strftime("%H:%M"),
+            'finish' => interview.finish.strftime("%H:%M"),
+            'interviewer' => interviewer.name,
+            'candidate' => candidate.name
+        })
+
+        DeliveryMan.perform_async(data, 1)
+        
+        data= JSON.generate({
+            'function' => 'update',
+            'send_to_email' => interviewer.email,
+            'send_to_name' => interviewer.name,
+            'topic' => interview.topic,
+            'date' => interview.date,
+            'start' => interview.start.strftime("%H:%M"),
+            'finish' => interview.finish.strftime("%H:%M"),
+            'interviewer' => interviewer.name,
+            'candidate' => candidate.name
+        })
+
+        DeliveryMan.perform_async(data, 1)
+    end
+
+    def reminder_mail(interview, interviewer, candidate)
+        
+        remind_at=interview.date.to_time + interview.start.to_i - 30*60
+        
+        data= JSON.generate({
+            'function' => 'reminder',
+            'send_to_email' => interviewer.email,
+            'send_to_name' => interviewer.name
+        })
+
+        DeliveryMan.perform_at(remind_at,data,1)
+
+        data= JSON.generate({
+            'function' => 'reminder',
+            'send_to_email' => candidate.email,
+            'send_to_name' => candidate.name
+        })
+
+        DeliveryMan.perform_at(remind_at,data,1)
     end
 end

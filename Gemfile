@@ -14,6 +14,9 @@ gem 'mysql2'
 gem 'paperclip'
 gem 'bootstrap'
 gem 'jquery-rails'
+gem 'letter_opener'
+gem 'launchy'
+gem 'sidekiq'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets

@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20200915090042) do
 
-  create_table "interviews", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "interviews", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "topic"
     t.time "start"
     t.time "finish"
@@ -21,23 +21,23 @@ ActiveRecord::Schema.define(version: 20200915090042) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "interviews_users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "interviews_users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "interview_id", null: false
     t.bigint "user_id", null: false
   end
 
-  create_table "resumes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
-    t.bigint "users_id"
+  create_table "resumes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "file_file_name"
     t.string "file_content_type"
     t.bigint "file_file_size"
     t.datetime "file_updated_at"
-    t.index ["users_id"], name: "index_resumes_on_users_id"
+    t.index ["user_id"], name: "index_resumes_on_user_id"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email"
     t.boolean "role"
     t.string "name"
@@ -46,5 +46,5 @@ ActiveRecord::Schema.define(version: 20200915090042) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "resumes", "users", column: "users_id"
+  add_foreign_key "resumes", "users"
 end
