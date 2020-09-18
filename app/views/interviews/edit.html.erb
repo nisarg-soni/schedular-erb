@@ -1,0 +1,12 @@
+<h1>Edit Post</h1>
+
+<div id="new-form">
+    <%= render 'form', interview: @interview %>
+</div>
+
+<div>
+    <p>Curent interviewer : <%= @interviewer%></p>
+    <p>Curent Candidiate : <%= @candidate%></p>
+</div>
+
+<%= link_to 'Back', interviews_path%>

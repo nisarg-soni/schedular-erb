@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<div id="new-form">
+    <%= render 'form', interview: @interview%>
+</div>
+
+<br>
+
+<div>
+    <%= link_to "New Interviewer", users_1_new_path%>
+    <%= link_to "New Candidate", users_0_new_path%>
+</div>
+<h1>Interviews</h1>
+
+<div id="interview-list">
+    
+    <%= render 'interview'%>
+    
+</div>

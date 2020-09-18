@@ -1,0 +1,18 @@
+<%= @interviews.each do |interview|%>
+<div>
+    <p>Topic : <%= interview.topic%></p>
+    <p>Date : <%= interview.date%></p>
+    <p>Starts at : <%= interview.start.strftime("%H:%M")%></p>
+    <p>Ends at : <%= interview.finish.strftime("%H:%M")%></p>
+    <% if interview.users[0].role %>
+        <p>Interviewer : <%= interview.users[0].name%></p>
+        <p>Candidate : <%= interview.users[1].name%></p>
+    <% else %>
+        <p>Interviewer : <%= interview.users[1].name%></p>
+        <p>Candidate : <%= interview.users[0].name%></p>
+    <% end %>
+    
+    <%= link_to 'Edit', edit_interview_path(interview)%>
+    <%= link_to 'Destroy', interview, method: :delete, data: {confirm: 'Are you sure you want to delete the interview?'}%>
+</div>
+<% end%>
