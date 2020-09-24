@@ -11,6 +11,7 @@ function parseRequestURL() {
 	request.resource = r[1];
 	request.id = r[2];
 	request.verb = r[3];
+	// console.log(request);
 	return request;
 }
 
@@ -23,8 +24,6 @@ let Navigationbar = `
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link active" href="#/create">Create</a>
-      <a class="nav-item nav-link active" href="#/update">Update</a>
-      <a class="nav-item nav-link active" href="#/list">List</a>
     </div>
   </div>
 </nav>
@@ -44,7 +43,7 @@ let Create = `
                 <input type="time" name="start" class="form-control" id="start">
             </div>
             <div class="form-group">
-                <label for="end">End time</label>
+                <label for="finish">End time</label>
                 <input type="time" name="finish" class="form-control" id="finish">
             </div>
             <div class="form-group">
@@ -105,6 +104,8 @@ let Delete = `
  </p>
 `;
 
+let Error404 = `<h1>Error 404</h1>`;
+
 const routes = {
 	'/': Home,
 	'/create': Create,
@@ -156,7 +157,7 @@ function router() {
 		edit.open('GET', 'http://localhost:3000/api/v1/interviews/' + request.id);
 		edit.send();
 		function sendJSON() {
-			edit.open('PUT', 'http://localhost:3000/api/v1/interviews/' + request.id);
+			edit.open('PATCH', 'http://localhost:3000/api/v1/interviews/' + request.id);
 			edit.setRequestHeader('Content-Type', 'application/json');
 			edit.onreadystatechange = function() {
 				if (edit.readyState === 4 && edit.status === 200) {
@@ -190,7 +191,7 @@ function router() {
 		};
 		deleteReq.open('DELETE', 'http://localhost:3000/api/v1/interviews/' + request.id);
 		deleteReq.send(null);
-	} else if (page == List) {
+	} else if (page == Home) {
 		var list = new XMLHttpRequest();
 		list.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200) {
@@ -224,9 +225,10 @@ function router() {
 		function sendJSON() {
 			let date = document.querySelector('#date');
 			let start = document.querySelector('#start');
-			let end = document.querySelector('#end');
-			let title = document.querySelector('#title');
-			let participants = document.querySelector('#participants');
+			let finish = document.querySelector('#finish');
+			let topic = document.querySelector('#topic');
+			let interviewer = document.querySelector('#interviewer');
+			let candidate = document.querySelector('#candidate');
 
 			let request = new XMLHttpRequest();
 			let url = 'http://localhost:3000/api/v1/interviews/';
@@ -236,8 +238,6 @@ function router() {
 			request.setRequestHeader('Content-Type', 'application/json');
 
 			request.onreadystatechange = function() {
-				console.log(request.readyState);
-				console.log(request.status);
 				if (request.readyState === 4 && request.status === 200) {
 					var res = JSON.parse(this.responseText);
 					if (res.status == 'ERROR-OVERLAP') {
@@ -251,16 +251,17 @@ function router() {
 			var data = JSON.stringify({
 				date: date.value,
 				start: start.value,
-				end: end.value,
-				title: title.value,
-				participantlist: participants.value
+				finish: finish.value,
+				topic: topic.value,
+				interviewer: interviewer.value,
+				candidate: candidate.value
 			});
 
 			request.send(data);
 		}
 		let form = document.getElementById('create-interview');
 		form.addEventListener('submit', function(event) {
-			event.preventDefault();
+			// event.preventDefault();
 			sendJSON();
 		});
 	}
