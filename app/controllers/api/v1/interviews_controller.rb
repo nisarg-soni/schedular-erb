@@ -46,7 +46,7 @@ module Api
                             create_mail(@interview,@interviewer,@candidate)
                             reminder_mail(@interview,@interviewer,@candidate) 
                             # 
-                            render json: {status: 'SUCCESS', message:'Created Interview', data: @interview},status: :ok
+                            render json: {status: 'SUCCESS', message:'Created Interview', data: @interview.attributes.merge({"participants" => @interview.users})},status: :ok
                         else
                             # redirect_to root_url, notice: 'Interview creation unsuccessfull. Error occured'
                             render json: {status: 'ERROR', message:'Error occured in interview creation.', data: @interview.errors},status: :ok
@@ -96,7 +96,7 @@ module Api
                 @interview = Interview.find(params[:id])
                 if @interview.destroy
                     # redirect_to root_url, notice: 'Interview deletion successfull.'
-                    render json: {status: 'SUCCESS', message:'Deleted Interview'},status: :ok
+                    render json: {status: 'SUCCESS', message:'Deleted Interview', data: @interview},status: :ok
                 else
                     # redirect_to root_url, notice: 'Interview deletion unsuccessfull. Error occured'
                     render json: {status: 'ERROR', message: @interview.errors},status: :ok
