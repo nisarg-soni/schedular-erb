@@ -55,4 +55,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   # to deliver to the browser instead of email
   config.action_mailer.delivery_method = :letter_opener
+  # config.hosts << "127.0.0.1.xip.io"
+  # config.force_ssl = false
+  # config.ssl_config = { hsts: { subdomains: false } }
 end

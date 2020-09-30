@@ -26,7 +26,7 @@ class UsersController < ApplicationController
             end
 
             if @user.save
-                if !@user.role
+                if !@user.role and @user.has_resume==true
                     @resume = Resume.new(parameters)
                     @resume.user_id = @user.id 
                     
